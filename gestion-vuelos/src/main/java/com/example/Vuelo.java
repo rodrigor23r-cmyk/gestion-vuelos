@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 
 public class Vuelo {
 	
-	private String destino;
+	private Destino destino;
 	private BigDecimal precio;
 	private LocalDate fechaSalida;
 	private LocalTime horaSalida;
