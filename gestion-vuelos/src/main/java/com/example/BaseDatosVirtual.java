@@ -21,7 +21,7 @@ public class BaseDatosVirtual {
        		    .fechaSalida(LocalDate.now())
     		    .horaSalida(LocalTime.of(8, 0))
     		    .fechaLlegada(LocalDate.now())
-    		    .horaLlegada(LocalTime.of(10, 0))
+    		    .horaLlegada(LocalTime.of(9, 0))
     		    .plazas(3)
     		    .listaPasajeros(new ArrayList<Pasajero>())
     		    .build();
@@ -34,7 +34,7 @@ public class BaseDatosVirtual {
 		        .fechaSalida(LocalDate.now()) 
 		        .horaSalida(LocalTime.of(10, 0))
 		        .fechaLlegada(LocalDate.now())
-		        .horaLlegada(LocalTime.of(22, 30)) // Duración: 12.5 horas
+		        .horaLlegada(LocalTime.of(10, 30)) // Duración: 12.5 horas
 		        .plazas(3)
 		        .listaPasajeros(new ArrayList<>())
 		        .build();
@@ -44,9 +44,9 @@ public class BaseDatosVirtual {
 		        .destino(Destino.TEHERAN)
 		        .precio(BigDecimal.valueOf(420.00))
 		        .fechaSalida(LocalDate.now().withDayOfMonth(25)) // Día 25 del mes actual
-		        .horaSalida(LocalTime.of(15, 0))
-		        .fechaLlegada(LocalDate.now().withDayOfMonth(25))
-		        .horaLlegada(LocalTime.of(21, 0))
+		        .horaSalida(LocalTime.of(16, 0))
+		        .fechaLlegada(LocalDate.now().withDayOfMonth(26))
+		        .horaLlegada(LocalTime.of(1, 0))
 		        .plazas(2) // Ponemos 2 plazas para dar variedad
 		        .listaPasajeros(new ArrayList<>())
 		        .build();
@@ -151,7 +151,7 @@ public class BaseDatosVirtual {
 		        .fechaNacimiento(LocalDate.of(1997, Month.FEBRUARY, 12)).genero(Genero.HOMBRE).build();
 		
 		List<Pasajero> pasajeros = List.of(pasajero1, pasajero2, pasajero3, pasajero4, pasajero5, pasajero6, pasajero7,
-				pasajero8, pasajero9, pasajero9, pasajero10, pasajero11, pasajero12, pasajero13, pasajero14, 
+				pasajero8, pasajero9, pasajero10, pasajero11, pasajero12, pasajero13, pasajero14, 
 				pasajero15, pasajero16, pasajero17, pasajero18, pasajero19, pasajero20);
 				
 		return pasajeros;

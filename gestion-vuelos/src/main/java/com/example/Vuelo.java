@@ -3,8 +3,9 @@ package com.example;
 import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
@@ -32,19 +33,21 @@ public class Vuelo {
 	private List<Pasajero> listaPasajeros;
 
 
-	public void setPlazas (int plazas) {
+	/*public void setPlazas (int plazas) {
 		if (plazas > 3) {
 			throw new IllegalArgumentException("El máximo permitido son 3 plazas");
 		}
 		this.plazas = plazas;
-	}
+	}*/
 	
 	
 	public int getDuracionHoras() {
-	    LocalDateTime salida = LocalDateTime.of(this.fechaSalida, this.horaSalida);
-	    LocalDateTime llegada = LocalDateTime.of(this.fechaLlegada, this.horaLlegada);
+	    ZonedDateTime salida = ZonedDateTime.of(this.fechaSalida, this.horaSalida, ZoneId.of("Europe/Madrid"));
+	    ZonedDateTime llegada = ZonedDateTime.of(this.fechaLlegada, this.horaLlegada, this.destino.getHusoHorario());
 	    
-	    return (int) Duration.between(salida, llegada).toHours();
+	    int duracion = (int) Duration.between(salida, llegada).toHours();
+	    
+	    return (duracion < 0 ) ? duracion+=24 : duracion;
 	}
 	
 	
