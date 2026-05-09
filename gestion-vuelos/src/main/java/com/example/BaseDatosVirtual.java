@@ -59,7 +59,7 @@ public class BaseDatosVirtual {
 		        .horaSalida(LocalTime.of(23, 30))
 		        .fechaLlegada(LocalDate.now().plusMonths(1).withDayOfMonth(7)) // Llega 2 días después
 		        .horaLlegada(LocalTime.of(9, 15))
-		        .plazas(3)
+		        .plazas(2)
 		        .listaPasajeros(new ArrayList<>())
 		        .build();
 
