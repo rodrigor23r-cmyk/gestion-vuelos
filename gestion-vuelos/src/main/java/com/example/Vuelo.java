@@ -70,7 +70,7 @@ public class Vuelo {
 	}
 
 
-	@Override  // implements Comparable
+	@Override  // implements Comparable<T>
 	
 	public int compareTo(Empleado emp) {
 		

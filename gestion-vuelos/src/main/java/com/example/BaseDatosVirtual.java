@@ -18,9 +18,9 @@ public class BaseDatosVirtual {
     	Vuelo vuelo1 = Vuelo.builder()
        		    .destino(Destino.BARCELONA)
        		    .precio(BigDecimal.valueOf(100.05))
-       		    .fechaSalida(LocalDate.now())
+       		    .fechaSalida(LocalDate.now().plusDays(1))
     		    .horaSalida(LocalTime.of(8, 0))
-    		    .fechaLlegada(LocalDate.now())
+    		    .fechaLlegada(LocalDate.now().plusDays(1))
     		    .horaLlegada(LocalTime.of(9, 0))
     		    .plazas(3)
     		    .listaPasajeros(new ArrayList<Pasajero>())
@@ -96,8 +96,8 @@ public class BaseDatosVirtual {
 		Pasajero pasajero2 = Pasajero.builder().nombre("Ana").primerApellido("García").segundoApellido("Ruiz")
 		        .fechaNacimiento(LocalDate.of(1985, Month.MARCH, 10)).genero(Genero.MUJER).build();
 
-		Pasajero pasajero3 = Pasajero.builder().nombre("Carlos").primerApellido("Sánchez").segundoApellido("Pérez")
-		        .fechaNacimiento(LocalDate.of(1972, Month.JULY, 22)).genero(Genero.HOMBRE).build();
+		Pasajero pasajero3 = Pasajero.builder().nombre("Javier").primerApellido("Zánchez").segundoApellido("Pérez")
+		        .fechaNacimiento(LocalDate.of(1988, Month.JULY, 22)).genero(Genero.HOMBRE).build();
 
 		Pasajero pasajero4 = Pasajero.builder().nombre("Lucía").primerApellido("Gómez").segundoApellido("Navarro")
 		        .fechaNacimiento(LocalDate.of(2005, Month.DECEMBER, 5)).genero(Genero.MUJER).build();
@@ -108,7 +108,7 @@ public class BaseDatosVirtual {
 		Pasajero pasajero6 = Pasajero.builder().nombre("Sofía").primerApellido("Torres").segundoApellido("Gil")
 		        .fechaNacimiento(LocalDate.of(1995, Month.AUGUST, 14)).genero(Genero.MUJER).build();
 
-		Pasajero pasajero7 = Pasajero.builder().nombre("Alex").primerApellido("Blanco").segundoApellido("Molina")
+		Pasajero pasajero7 = Pasajero.builder().nombre("Alexis").primerApellido("Blanco").segundoApellido("Molina")
 		        .fechaNacimiento(LocalDate.of(1998, Month.NOVEMBER, 2)).genero(Genero.OTRO).build();
 
 		Pasajero pasajero8 = Pasajero.builder().nombre("Javier").primerApellido("Ruiz").segundoApellido("Díaz")
