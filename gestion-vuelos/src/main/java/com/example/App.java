@@ -17,6 +17,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.OptionalInt;
+import java.util.Random;
 import java.util.TreeMap;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
@@ -29,23 +30,25 @@ public class App {
     public static void main(String[] args) {
     	
    	
-    	List<Pasajero> pasajeros = BaseDatosVirtual.obtenerPasajeros();
+    	List<Pasajero> listaInmutablePasajeros = BaseDatosVirtual.obtenerPasajeros();
+    	List<Pasajero> pasajeros = new ArrayList<>(listaInmutablePasajeros);
     	List<Vuelo> vuelos = BaseDatosVirtual.obtenerVuelos();
     	
-    	// añadir pasajeros a los vuelos
-    	int i = 0;
+    	//añadir pasajeros a los vuelos
+    	Random rand = new Random();
     	
     	for (Vuelo vuelo : vuelos) {
     			while (vuelo.getPlazas() > vuelo.getListaPasajeros().size()) {
-				
-					vuelo.getListaPasajeros().add(pasajeros.get(i));
-					i++;
+    				
+    				int indice = rand.nextInt(pasajeros.size());
+					vuelo.getListaPasajeros().add(pasajeros.get(indice));
+					pasajeros.remove(indice);
 				}
 		}
     	/* imprimir en pantalla
     	System.out.println(pasajeros);
     	System.out.println(vuelos);
-    	System.out.println(i);*/
+    	*/
     	// vuelos que tinen más pasajeros==============version FOR ===========================
     	int maximo = 0;
     	for (Vuelo vuelo : vuelos) {

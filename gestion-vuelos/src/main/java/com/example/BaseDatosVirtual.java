@@ -74,8 +74,18 @@ public class BaseDatosVirtual {
 		        .plazas(3)
 		        .listaPasajeros(new ArrayList<>())
 		        .build();
+		Vuelo vuelo6 = Vuelo.builder()
+       		    .destino(Destino.BARCELONA)
+       		    .precio(BigDecimal.valueOf(100.05))
+       		    .fechaSalida(LocalDate.now().plusDays(2))
+    		    .horaSalida(LocalTime.of(11, 0))
+    		    .fechaLlegada(LocalDate.now().plusDays(2))
+    		    .horaLlegada(LocalTime.of(12, 0))
+    		    .plazas(3)
+    		    .listaPasajeros(new ArrayList<Pasajero>())
+    		    .build();
 		
-		List<Vuelo> vuelos = List.of(vuelo1, vuelo2, vuelo3, vuelo4, vuelo5);
+		List<Vuelo> vuelos = List.of(vuelo1, vuelo2, vuelo3, vuelo4, vuelo5, vuelo6);
 		
 		return vuelos;
 	}
