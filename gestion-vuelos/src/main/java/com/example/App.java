@@ -36,19 +36,22 @@ public class App {
     	
     	//añadir pasajeros a los vuelos
     	Random rand = new Random();
+    	Random rand2 =new Random();
+    	
     	
     	for (Vuelo vuelo : vuelos) {
-    			while (vuelo.getPlazas() > vuelo.getListaPasajeros().size()) {
+    		int topeMax = rand2.nextInt(vuelo.getPlazas())+1;
+    			while (topeMax > vuelo.getListaPasajeros().size()) {
     				
     				int indice = rand.nextInt(pasajeros.size());
 					vuelo.getListaPasajeros().add(pasajeros.get(indice));
 					pasajeros.remove(indice);
 				}
 		}
-    	/* imprimir en pantalla
+    	/* imprimir en pantalla*/
     	System.out.println(pasajeros);
     	System.out.println(vuelos);
-    	*/
+    	/**/
     	// vuelos que tinen más pasajeros==============version FOR ===========================
     	int maximo = 0;
     	for (Vuelo vuelo : vuelos) {
