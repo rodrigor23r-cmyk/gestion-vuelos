@@ -224,14 +224,45 @@ public class App {
     	System.out.println(pasajerosGeneroEdad);
     	
     	//8. Mostrar la colección anterior ordenada por el nombre y los apellidos en orden natural.
-    	System.out.println("8. Mostrar la colección anterior ordenada por el nombre y los apellidos en orden natural.");
+    	System.out.println("\n8. Mostrar la colección anterior ordenada por el nombre y los apellidos en orden natural.");
+    	// ============== versión sin cambiar el orden de las edades: ======================
     	
-    	/*pasajerosGeneroEdad.values().forEach(mapaEdades -> 
-        mapaEdades.values().forEach(lista -> System.out.println(lista.sort(null))));
-    	*/
+    	pasajerosGeneroEdad.values().forEach(mapaEdades -> 
+        	mapaEdades.values().forEach(listaP -> listaP.sort(null)));
+    	
+    	
+    	System.out.println(pasajerosGeneroEdad);
+    	
+    	
+    	// ====================================NO ESTUDIAR EXCEDE EL TEMARIO ============================================
+    	Map<Integer, List<Pasajero>> mapaOriginalMujeres = pasajerosGeneroEdad.get(Genero.MUJER);
+    	Map<Integer, List<Pasajero>> mapaOriginalHombres = pasajerosGeneroEdad.get(Genero.HOMBRE);
+    	
+    	List<Map.Entry<Integer, Pasajero>> pasajerasDesempaquetados = mapaOriginalMujeres.entrySet().stream()
+    		    // flatMap destruye la lista interior y crea una pareja independiente por cada pasajero
+    		    .flatMap(entrada -> entrada.getValue().stream()
+    		    .map(pasajero -> Map.entry(entrada.getKey(), pasajero)))
+    		    .sorted(Map.Entry.comparingByValue())
+    		    .collect(Collectors.toList());
+    	System.out.println("\nMUJERES:\n");
+    		// Resultado: Si tenías 30 pasajeros en total, esta lista tendrá 30 elementos.
+    		pasajerasDesempaquetados.forEach(pareja -> 
+    		    System.out.println("Edad: " + pareja.getKey() + " -> Pasajero: " + pareja.getValue().nombre())
+    		);
+    		List<Map.Entry<Integer, Pasajero>> pasajerosDesempaquetados = mapaOriginalHombres.entrySet().stream()
+        		    // flatMap destruye la lista interior y crea una pareja independiente por cada pasajero
+        		    .flatMap(entrada -> entrada.getValue().stream()
+        		    .map(pasajero -> Map.entry(entrada.getKey(), pasajero)))
+        		    .sorted(Map.Entry.comparingByValue())
+        		    .collect(Collectors.toList());
+        	System.out.println("\nHOMBRES:\n");
+        		// Resultado: Si tenías 30 pasajeros en total, esta lista tendrá 30 elementos.
+        		pasajerosDesempaquetados.forEach(pareja -> 
+        		    System.out.println("Edad: " + pareja.getKey() + " -> Pasajero: " + pareja.getValue().nombre()
+        		    	+ " " + pareja.getValue().primerApellido()));
         
         //8.1. Ejercicio al margen 3. Ordenar la clave Genero del mapa anterior en orden alfabético inverso
-        System.out.println("8.1. Ejercicio al margen 3. Ordenar la clave Genero del mapa anterior en orden alfabético inverso");
+        System.out.println("\n8.1. Ejercicio al margen 3. Ordenar la clave Genero del mapa anterior en orden alfabético inverso");
         Map<Genero, Map<Integer, List<Pasajero>>> pasajerosGeneroInversoEdad = 
         		new TreeMap<>(Comparator.comparing(Genero::name).reversed());
         
@@ -240,12 +271,14 @@ public class App {
         
         //9. Mostrar la colección del punto 7 ordenada en orden alfabético inverso por el
         //   primer apellido, sin modificar el orden natural de la clase Pasajero.
-        System.out.println("9. Mostrar la colección del punto 7 ordenada en orden alfabético inverso por el ...");
+        System.out.println("\n9. Mostrar la colección del punto 7 ordenada en orden alfabético inverso por el ...");
         pasajerosGeneroEdad.values().forEach(mapaEdades -> 
         mapaEdades.values().forEach(lista -> lista
         	.sort(Comparator.comparing(Pasajero::primerApellido, String.CASE_INSENSITIVE_ORDER).reversed())));
         
         System.out.println(pasajerosGeneroEdad);
+        
+        
         
         //10. Obtener una colección que almacene el nombre y el apellido de los
         //   pasajeros, agrupado por las horas de duración de su viaje.
