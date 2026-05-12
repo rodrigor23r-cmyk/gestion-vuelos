@@ -1,7 +1,9 @@
 package com.example;
 
+//import java.time.Duration;
 import java.time.LocalDate;
 import java.time.Period;
+import java.time.temporal.ChronoUnit;
 
 import lombok.Builder;
 
@@ -12,7 +14,7 @@ public record Pasajero(String nombre, String primerApellido, String segundoApell
 	public int getEdad() {
 		
 		return Period.between(this.fechaNacimiento,	LocalDate.now()).getYears();
-		
+		 //return (int) ChronoUnit.YEARS.between(this.fechaNacimiento, LocalDate.now());// devuelve un Long
 	}
 	
 	
@@ -37,10 +39,10 @@ public record Pasajero(String nombre, String primerApellido, String segundoApell
 	
 	public String toString() {
 	    return String.format(
-	        "\n================ FICHA DE PASAJERO ================\n" +
-	        "  Nombre completo: %s %s %s\n" +
-	        "  Nacimiento     : %s\n" +
-	        "  Género         : %s\n",
+	        
+	        "\n  Pasajero: %s %s %s" +
+	        "  Nacimiento: %s" +
+	        "  Género: %s\n",
 	        nombre, primerApellido(), segundoApellido(),
 	        fechaNacimiento(), genero()
 	    );

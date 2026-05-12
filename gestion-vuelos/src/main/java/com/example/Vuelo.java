@@ -48,6 +48,8 @@ public class Vuelo {
 	    int duracion = (int) Duration.between(salida, llegada).toHours();
 	    
 	    return (duracion < 0 ) ? duracion+=24 : duracion;
+	    
+	    // arreglar le condicional con lo de Dani atTime()
 	}
 	
 	

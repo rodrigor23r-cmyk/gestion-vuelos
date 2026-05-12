@@ -9,6 +9,8 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.Month;
 import java.time.format.TextStyle;
+import java.time.temporal.TemporalAdjuster;
+import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -22,6 +24,7 @@ import java.util.TreeMap;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
+// import static java.util.stream.Collectors.*;
 import lombok.ToString;
 
 
@@ -48,7 +51,7 @@ public class App {
 					pasajeros.remove(indice);
 				}
 		}
-    	/* imprimir en pantalla*/
+    	/* imprimir en pantalla
     	System.out.println(pasajeros);
     	System.out.println(vuelos);
     	/**/
@@ -75,21 +78,55 @@ public class App {
     			.filter(v -> v.getListaPasajeros().size() == maxi)
     			.forEach(System.out::println);
     	
+    	// ===================== OTRO METODO ====================================
+    	
+    	Optional<Vuelo> optionalVueloMaxPasajeros = vuelos.stream()
+    			.max(Comparator.comparingInt(v -> v.getListaPasajeros().size()));
+    	
+    	if (optionalVueloMaxPasajeros.isPresent()) {
+    		System.out.println("\nEl vuelo con más pasajeros version Javi " + optionalVueloMaxPasajeros);
+    	}
+    	// ==================== Versión PROFESOR =================================
+    	
+    	Optional<Vuelo> opcionalmaxPasajeros = vuelos.stream()
+    			.max((v1, v2) -> Integer.valueOf(v1.getListaPasajeros().size())
+    				.compareTo(v2.getListaPasajeros().size()));
+    	
+    	if (opcionalmaxPasajeros.isPresent()) {
+    		System.out.println("\nEl vuelo con más pasajeros version Víctor " + opcionalmaxPasajeros);
+    	}
+    	
+    	// ========== Ejercicio EXTRA vuelo con el menor precio ================
+    	
+    	Optional<Vuelo> optionalVueloPrecioMenor = vuelos.stream()
+    			.min(Comparator.comparing(v -> v.getPrecio()));
+    	
+    	optionalVueloMaxPasajeros.ifPresent(v -> 
+    		System.out.println("\nEl vuelo con el menor precio es: " + optionalVueloPrecioMenor));
+    		
+    	
+    	
+    	
+    	
+    	
     	//1. Obtener un listado de los vuelos que tienen el número de plazas completo.
-    	System.out.println("1. Obtener un listado de los vuelos que tienen el número de plazas completo.");
+    	System.out.println("\n1. Obtener un listado de los vuelos que tienen el número de plazas completo.");
     	List<Vuelo> vueloPlazasCompletas = 
-    		vuelos.stream().filter(v -> v.getPlazas() == v.getListaPasajeros().size()).collect(Collectors.toList());
+    		vuelos.stream().filter(v -> v.getPlazas() == v.getListaPasajeros().size())
+    		// .collect(Collectors.toList()); versión antiquada
+    		.toList();
     	
     	vueloPlazasCompletas.forEach(System.out::println);
     	
     	//2. Obtener un listado de los vuelos que tienen fecha de salida prevista para hoy.
-    	System.out.println("2. Obtener un listado de los vuelos que tienen fecha de salida prevista para hoy.");
+    	System.out.println("\n2. Obtener un listado de los vuelos que tienen fecha de salida prevista para hoy.");
     	List<Vuelo> vuelosHoy = 
-    		vuelos.stream().filter(v -> v.getFechaSalida().equals(LocalDate.now())).collect(Collectors.toList());
+    		vuelos.stream().filter(v -> v.getFechaSalida().equals(LocalDate.now())).toList();
     	
     	vuelosHoy.forEach(System.out::println);
+    	
     	//2.1. Ejercicio al margen 1. En lugar de mostrar los vuelos, mostrar los destinos,separados por coma.
-    	System.out.println("2.1. Ejercicio al margen 1. En lugar de mostrar los vuelos, mostrar los destinos,separados por coma.");
+    	System.out.println("\n2.1. Ejercicio al margen 1. En lugar de mostrar los vuelos, mostrar los destinos,separados por coma.");
     	
     	System.out.println(vuelos.stream().filter(v -> v.getFechaSalida().equals(LocalDate.now()))
     		.map(v -> v.getDestino().toString()).collect(Collectors.joining(" , ")));
@@ -101,14 +138,19 @@ public class App {
     	System.out.println(destinosHoy);
     	
     	//3. Obtener un listado de los vuelos cuya duración sea mayor de 10 horas
-    	System.out.println("3. Obtener un listado de los vuelos cuya duración sea mayor de 10 horas");	
+    	System.out.println("\n3. Obtener un listado de los vuelos cuya duración sea mayor de 10 horas");	
     	List<Vuelo> vuelosMas10Horas =
-    		vuelos.stream().filter(v -> v.getDuracionHoras() > 10).collect(Collectors.toList());
+    		vuelos.stream()
+    		.peek(v -> System.out.println("Duración en horas: " + v.getDuracionHoras()))
+    		.filter(v -> v.getDuracionHoras() > 10)
+    		// .collect(Collectors.toList()); version antigua
+    		.toList();
     	
     	vuelosMas10Horas.forEach(System.out::println);
     	
+    	
     	//4. Obtener un listado de los vuelos que pueden demorar más de un día en llegar a su destino.
-    	System.out.println("4. Obtener un listado de los vuelos que duren más de un día.");
+    	System.out.println("\n4. Obtener un listado de los vuelos que duren más de un día.");
     	List<Vuelo> vuelosMas1Dia = 
     		vuelos.stream().filter(v -> v.getDuracionHoras() > 24).collect(Collectors.toList());
     	
@@ -119,10 +161,14 @@ public class App {
     			.map(String::valueOf).collect(Collectors.joining(" , ")));
     	
     	//5. Obtener una colección que almacene un listado de pasajeros agrupado por el destino del vuelo
-    	System.out.println("5. Obtener una colección con el listado de pasajeros agrupado por destino");
+    	System.out.println("\n5. Obtener una colección con el listado de pasajeros agrupado por destino");
+    	
     	Map<Destino, List<Pasajero>> pasajerosPorDestino = vuelos.stream()
     		    .collect(Collectors.groupingBy(Vuelo::getDestino,
     		    Collectors.flatMapping(v -> v.getListaPasajeros().stream(), Collectors.toList())));
+    	
+
+    	
     	
     	pasajerosPorDestino.forEach((destino, lista) -> {
     		
@@ -130,34 +176,59 @@ public class App {
     		lista.forEach(l -> System.out.println(l.nombre() + " " + l.primerApellido()));
     	});
     	
+    	/* si meto esta línea ahorro import static java.util.stream.Collectors.*;
+    	
+    	Map<Destino, List<Pasajero>> pasajerosPorDestino2 = vuelos.stream()
+    		    .collect(Collectors.toMap(Vuelo::getDestino, Vuelo::getListaPasajeros));
+    	
+    	pasajerosPorDestino2.forEach((destino2, lista2) -> {
+    		
+    		System.out.println("_repe_____ " + destino2 + ". Pasajeros: ");
+    		lista2.forEach(x -> System.out.println(x.nombre() + " " + x.primerApellido()));
+    	});
+    	*/
+    	
+    	
+    	
     	//6. Colección de los vuelos que están programados salir en los últimos 10 días del mes en curso.
-    	System.out.println("6. Colección de los vuelos que están programados salir en los últimos 10 días del mes en curso.");
+    	System.out.println("\n6. Colección de los vuelos que están programados salir en los últimos 10 días del mes en curso.");
     	
     	int ultimoDiaMes = LocalDate.now().lengthOfMonth();
     	int diaMesHoy = LocalDate.now().getDayOfMonth();
     	LocalDate ultiDiaMes = LocalDate.now().plusDays(ultimoDiaMes-diaMesHoy);
     	
-    	List<Vuelo> diezUltiDiasMesActual = vuelos.stream()
-    			.filter(v -> !v.getFechaSalida().isAfter(ultiDiaMes) && !v.getFechaSalida().isBefore(ultiDiaMes.minusDays(9)))
+    	List<Vuelo> vuelosDiezUltimosDiasMesActual = vuelos.stream()
+    			.filter(v -> !v.getFechaSalida().isAfter(ultiDiaMes) &&
+    					!v.getFechaSalida().isBefore(ultiDiaMes.minusDays(9)))
+    			
     			.collect(Collectors.toList());
     	
-    	diezUltiDiasMesActual.forEach(v -> System.out.println(v.getDestino()+ " , "+ v.getFechaSalida()));
+    	vuelosDiezUltimosDiasMesActual.forEach(v -> System.out.println(v.getDestino()+ " , "+ v.getFechaSalida()));
+    	
+    	// ======= otra versión ======según Jorge no tiene en cuenta que sea para el mes en curso=======================================
+    	
+    	List<Vuelo> vuelosDiezUltiDiasMesActual =vuelos.stream()
+    		.filter(v -> v.getFechaSalida().with(TemporalAdjusters.lastDayOfMonth()).minusDays(9)
+    				.isBefore(v.getFechaSalida())).toList();
+    	
+    	vuelosDiezUltiDiasMesActual.forEach(v -> System.out.println("version teacher: " + v.getDestino()+ " , "+ v.getFechaSalida()));
     	
     	//7. Crear una colección que almacene los pasajeros, por el genero y la edad
-    	System.out.println("7. Crear una colección que almacene los pasajeros, por el genero y la edad");
+    	System.out.println("\n7. Crear una colección que almacene los pasajeros, por el genero y la edad");
     	
     	Map<Genero, Map<Integer, List<Pasajero>>> pasajerosGeneroEdad = vuelos.stream()
     			.flatMap(p -> p.getListaPasajeros().stream())//.sorted() con sorted consigo ordenar como pide el pto. 8
     			.collect(Collectors.groupingBy(Pasajero::genero,
     					Collectors.groupingBy(Pasajero::getEdad)));
+    	
     	System.out.println(pasajerosGeneroEdad);
     	
     	//8. Mostrar la colección anterior ordenada por el nombre y los apellidos en orden natural.
     	System.out.println("8. Mostrar la colección anterior ordenada por el nombre y los apellidos en orden natural.");
     	
-    	pasajerosGeneroEdad.values().forEach(mapaEdades -> 
-        mapaEdades.values().forEach(lista -> lista.sort(null)));
-        System.out.println(pasajerosGeneroEdad);
+    	/*pasajerosGeneroEdad.values().forEach(mapaEdades -> 
+        mapaEdades.values().forEach(lista -> System.out.println(lista.sort(null))));
+    	*/
         
         //8.1. Ejercicio al margen 3. Ordenar la clave Genero del mapa anterior en orden alfabético inverso
         System.out.println("8.1. Ejercicio al margen 3. Ordenar la clave Genero del mapa anterior en orden alfabético inverso");
